@@ -16,6 +16,7 @@ from rest_framework.generics import (
 )
 
 from status.models import Status
+from accounts.api.permissions import IsOwnerOrReadOnly
 from .serializers import StatusSerializer
 
 
@@ -29,7 +30,7 @@ def is_json(json_data):
 
 
 class StatusAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, RetrieveAPIView):
-    permission_classes      = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes      = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     queryset                 = Status.objects.all()
     serializer_class         = StatusSerializer
     lookup_field             = 'id'
